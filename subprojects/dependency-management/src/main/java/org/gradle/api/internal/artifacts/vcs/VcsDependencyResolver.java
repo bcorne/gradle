@@ -16,6 +16,7 @@
 
 package org.gradle.api.internal.artifacts.vcs;
 
+import org.gradle.api.artifacts.ModuleIdentifier;
 import org.gradle.api.initialization.IncludedBuild;
 import org.gradle.api.internal.artifacts.ivyservice.ivyresolve.ComponentResolvers;
 import org.gradle.api.internal.artifacts.ivyservice.projectmodule.LocalComponentRegistry;
@@ -65,7 +66,7 @@ public class VcsDependencyResolver implements DependencyToComponentIdResolver, C
     }
 
     @Override
-    public void resolve(DependencyMetadata dependency, BuildableComponentIdResolveResult result) {
+    public void resolve(DependencyMetadata dependency, ModuleIdentifier targetModuleId, BuildableComponentIdResolveResult result) {
         VcsMappingInternal vcsMappingInternal = getVcsMapping(dependency);
 
         if (vcsMappingInternal != null) {
@@ -95,7 +96,7 @@ public class VcsDependencyResolver implements DependencyToComponentIdResolver, C
             }
         }
 
-        projectDependencyResolver.resolve(dependency, result);
+        projectDependencyResolver.resolve(dependency, targetModuleId, result);
     }
 
     private File populateWorkingDirectory(File baseWorkingDir, VersionControlSpec spec, VersionControlSystem versionControlSystem, VersionRef selectedVersion) {
