@@ -850,7 +850,11 @@ public abstract class AbstractGradleExecuter implements GradleExecuter {
             }
 
             if (!settingsFoundAboveInTestDir) {
-                allArgs.add("--no-search-upward");
+                try {
+                    new File(getWorkingDir(), "settings.gradle").createNewFile();
+                } catch (IOException e) {
+                    throw new UncheckedIOException(e);
+                }
             }
         }
 

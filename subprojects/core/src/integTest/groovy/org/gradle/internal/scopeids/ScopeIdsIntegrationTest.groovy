@@ -129,6 +129,8 @@ class ScopeIdsIntegrationTest extends AbstractIntegrationSpec {
         when:
         file("a/build.gradle") << ""
         file("b/build.gradle") << ""
+        file("a/settings.gradle") << ""
+        file("b/settings.gradle") << ""
         succeeds("help", "-p", "a")
         succeeds("help", "-p", "b")
 

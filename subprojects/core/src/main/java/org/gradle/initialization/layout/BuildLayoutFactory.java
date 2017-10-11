@@ -19,6 +19,7 @@ import org.gradle.api.initialization.Settings;
 import org.gradle.api.resources.MissingResourceException;
 import org.gradle.internal.FileUtils;
 import org.gradle.internal.scan.UsedByScanPlugin;
+import org.gradle.util.DeprecationLogger;
 
 import java.io.File;
 
@@ -59,14 +60,20 @@ public class BuildLayoutFactory {
         for (File candidate = currentDir.getParentFile(); candidate != null && !candidate.equals(stopAt); candidate = candidate.getParentFile()) {
             settingsFile = new File(candidate, Settings.DEFAULT_SETTINGS_FILE);
             if (settingsFile.isFile()) {
+                deprecationWarning();
                 return layout(candidate, candidate, settingsFile);
             }
             settingsFile = new File(candidate, "master/" + Settings.DEFAULT_SETTINGS_FILE);
             if (settingsFile.isFile()) {
+                deprecationWarning();
                 return layout(candidate, settingsFile.getParentFile(), settingsFile);
             }
         }
         return layout(currentDir, currentDir, settingsFile);
+    }
+
+    private void deprecationWarning(){
+        DeprecationLogger.nagUserWith("Support for upward-searching 'settings.gradle' in builds was deprecated and will be removed in Gradle 5.0. You should run build in root project.");
     }
 
     private BuildLayout layout(File rootDir, File settingsDir, File settingsFile) {

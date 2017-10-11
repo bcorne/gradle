@@ -74,8 +74,10 @@ public class BuildLayoutParametersBuildOptions {
     }
 
     public static class NoSearchUpwardsOption extends EnabledOnlyBooleanBuildOption<BuildLayoutParameters> {
+        public static String DEPRECATION_MESSAGE = "Support for --no-search-upward and -u was deprecated and is scheduled to be removed in Gradle 5.0. In Gradle 5.0, these options will be enabled by default.";
+
         public NoSearchUpwardsOption() {
-            super(null, CommandLineOptionConfiguration.create("no-search-upward", "u", "Don't search in parent folders for a " + Settings.DEFAULT_SETTINGS_FILE + " file."));
+            super(null, CommandLineOptionConfiguration.create("no-search-upward", "u", "Don't search in parent folders for a " + Settings.DEFAULT_SETTINGS_FILE + " file.").deprecated(DEPRECATION_MESSAGE));
         }
 
         @Override
